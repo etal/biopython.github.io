@@ -26,7 +26,7 @@ def get_parent(tree, child_clade):
     return node_path[-2]
 
 # Select a clade
-myclade = tree.find_clades("foo").next()
+myclade = next(tree.find_clades("foo"))
 # Test the function
 parent = get_parent(tree, myclade)
 assert myclade in parent
@@ -51,7 +51,7 @@ def all_parents(tree):
 
 # Example
 parents = all_parents(tree)
-myclade = tree.find_clades("foo").next()
+myclade = next(tree.find_clades("foo"))
 parent_of_myclade = parents[myclade]
 assert myclade in parent_of_myclade
 ```
@@ -111,7 +111,7 @@ def terminal_neighbor_dists(self):
     """Return a list of distances between adjacent terminals."""
     def generate_pairs(self):
         pairs = itertools.tee(self)
-        pairs[1].next()
+        next(pairs[1])
         return itertools.izip(pairs[0], pairs[1])
     return [self.distance(*i) for i in
             generate_pairs(self.find_clades(terminal=True))]
@@ -129,17 +129,6 @@ clade itself is terminal.
 ``` python
 def is_semipreterminal(clade):
     """True if any direct descendent is terminal."""
-    for child in clade:
-        if child.is_terminal():
-            return True
-    return False
-```
-
-In Python 2.5 and later, this is simplified with the built-in `any`
-function:
-
-``` python
-def is_semipreterminal(clade):
     return any(child.is_terminal() for child in clade)
 ```
 
@@ -205,7 +194,7 @@ Graphics
 
 *TODO:*
 
--   Party tricks with `draw_graphviz`, covering each keyword argument
+-   Party tricks with `draw`, covering each keyword argument
 
 Exporting to other types
 ------------------------
